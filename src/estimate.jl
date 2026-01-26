@@ -36,7 +36,7 @@ function estimate!(problem::FRACProblem)
     elseif se_type == "robust"
         se = Vcov.robust();
     elseif se_type == "cluster"
-        se = Vcov.cluster(Symbol(cluster_var));
+        se = Vcov.cluster(Symbol(problem.cluster_var));
     else 
         se = Vcov.simple()
     end

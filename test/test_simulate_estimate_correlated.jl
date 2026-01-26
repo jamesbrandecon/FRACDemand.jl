@@ -1,7 +1,7 @@
 using Test
 using Random
 using DataFrames
-using FRAC
+using FRACDemand
 
 @testset "simulate and estimate correlated logit" begin
     # fix seed for reproducibility
@@ -14,7 +14,7 @@ using FRAC
          0.3 0.8]
     
     # simulate data with no market shocks
-    df = FRAC.sim_logit_vary_J(J1, J2, T, B, β, Σ, 0.0)
+        df = FRACDemand.sim_logit_vary_J(J1, J2, T, B, β, Σ, 0.0)
     df[!,"demand_instruments3"] .= df.demand_instruments0 .* df.demand_instruments1 .* df.demand_instruments2
 
     # set up and run estimation: random coeffs on prices & x
@@ -56,7 +56,7 @@ end
          0.3 0.8]
     
     # simulate data with no market shocks
-    df = FRAC.sim_logit_vary_J(J1, J2, T, B, β, Σ, 0.0)
+        df = FRACDemand.sim_logit_vary_J(J1, J2, T, B, β, Σ, 0.0)
 
     # add a new continuous variable and one more instrument
     df[!,"x2"] = randn(size(df,1))
@@ -120,7 +120,7 @@ end
          0.1 0.6]
 
     # simulate and augment data
-    df = FRAC.sim_logit_vary_J(J1, J2, T, B, β, Σ, 0.0)
+    df = FRACDemand.sim_logit_vary_J(J1, J2, T, B, β, Σ, 0.0)
     df[!,"x2"] = randn(size(df,1))
     df[!,"demand_instruments3"] .= df.demand_instruments0 .* df.demand_instruments1 .* df.demand_instruments2
     df[!,"demand_instruments4"] .= df.x2 .^ 2

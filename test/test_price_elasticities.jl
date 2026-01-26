@@ -1,7 +1,7 @@
 using Test
 using Random
 using DataFrames
-using FRAC
+using FRACDemand
 
 @testset "price_elasticities! runs with non-empty cov" begin
     Random.seed!(123)
@@ -10,7 +10,7 @@ using FRAC
     β = [-1.0, 2.0]
     Σ = [0.4 0.2;
          0.2 0.6]
-    df = FRAC.sim_logit_vary_J(J1, J2, T, B, β, Σ, 0.0)
+        df = FRACDemand.sim_logit_vary_J(J1, J2, T, B, β, Σ, 0.0)
     # add one extra instrument so define_problem doesn't error
     df[!,"demand_instruments3"] .= df.demand_instruments0 .* df.demand_instruments1 .* df.demand_instruments2
 

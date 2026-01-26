@@ -29,20 +29,23 @@ function predict_shares!(
     # Construct Mean utilities 
     deltas = make_deltas(data, problem)
 
-    # 2) draw random coefficients (match your estimation settings)
-    I = 50  # or pick problem.n_draws if you store it
-    raw = make_draws(data, I, length(problem.nonlinear);
-                     method = :halton,    # or :normal
-                     common_draws = true,
-                     seed = 1234)
+    K = length(problem.nonlinear)
+    I = (K == 0) ? 1 : 50
 
-    # 3) correlate draws if you have covariances
-    if !isempty(problem.cov)
-        raw = correlate_draws(raw,
-                              data,
-                              problem.nonlinear,
-                              problem.cov,
-                              problem.estimated_parameters)
+    raw = Matrix{Float64}[]
+    if K > 0
+        raw = make_draws(data, I, K;
+                         method = :halton,
+                         common_draws = true,
+                         seed = 1234)
+
+        if !isempty(problem.cov)
+            raw = correlate_draws(raw,
+                                  data,
+                                  problem.nonlinear,
+                                  problem.cov,
+                                  problem.estimated_parameters)
+        end
     end
 
     # 4) compute predicted shares
@@ -69,7 +72,7 @@ function make_deltas(data::DataFrame, problem::FRACProblem)
         deltas .+= data[!, "xi"];
     else
         # If xi is not in the data, we assume it is zero
-        data[!, "xi"] = 0.0;
+        data[!, "xi"] = zeros(nrow(data));
     end
     
     return deltas

@@ -1,7 +1,7 @@
 using Test
 using Random
 using DataFrames
-using FRAC
+using FRACDemand
 
 @testset "simulate_logit" begin
     Random.seed!(2025)
@@ -30,7 +30,7 @@ end
     Random.seed!(2025)
     J1 = 2; J2 = 3; T = 4; B = 1
     beta = [0.0, 0.0]; sd = [0.0, 0.0]; v = 0.0
-    df = FRAC.sim_logit_vary_J(J1, J2, T, B, beta, sd, v; with_market_FEs=false)
+    df = FRACDemand.sim_logit_vary_J(J1, J2, T, B, beta, sd, v; with_market_FEs=false)
     @test isa(df, DataFrame)
     @test nrow(df) == T*J1 + T*J2
     pid = unique(df.product_ids)

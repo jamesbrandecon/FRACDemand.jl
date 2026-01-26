@@ -1,7 +1,7 @@
 using Test
 using Random
 using DataFrames
-using FRAC
+using FRACDemand
 
 @testset "core estimator recovery" begin
     # One-market, two-product deterministic data
